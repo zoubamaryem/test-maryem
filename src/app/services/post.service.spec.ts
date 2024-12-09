@@ -1,16 +1,23 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class PostService {
-  getPosts() {
-    return [
-      { id: '1', titre: 'Premier post', contenu: 'Détails premier post' },
-      { id: '2', titre: 'Deuxième post', contenu: 'Détails deuxième post' },
-      { id: '3', titre: 'Troisième post', contenu: 'Détails troisième post' },
-    ];
+
+  private apiUrl = 'http://localhost:3000/api/posts';  // Remplace par l'URL de ton serveur si nécessaire
+
+  constructor(private http: HttpClient) { }
+
+  // Récupérer tous les posts
+  getPosts(): Observable<any> {
+    return this.http.get(this.apiUrl);
   }
 
-  constructor() {}
+  // Récupérer un post par son ID
+  getPostById(id: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
 }
